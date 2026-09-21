@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### DESCRIPTION ###
+.env.
+.env.*
+logs

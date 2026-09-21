@@ -1,0 +1,49 @@
+# ====================================================================================================
+#   공통 환경
+# ====================================================================================================
+spring:
+  application:
+    name: delfeno-app
+  main:
+    banner-mode: OFF
+
+  # 애플리케이션 프로퍼티
+  profiles:
+    active: dev
+  config:
+    import: optional:file:.env.${spring.profiles.active}[.properties]
+
+  # JSON 직렬화 처리
+  jackson:
+    # 날짜 데이터 서식 지정 시 사용될 시간대
+    time-zone: Asia/Seoul
+
+
+mybatis:
+  # 마이바티스 설정 파일 경로 지정
+  config-location: classpath:db/sql/mybatis-config.xml
+  # 매퍼에서 매핑 타입으로 사용될 클래스가 위치한 패키지 지정
+  type-aliases-package: me.subin.delfeno.domain
+  # 커스텀 타입 핸들러가 위치한 패키지 지정
+  type-handlers-package: me.subin.delfeno.global.infra.handler
+  # 매퍼 XML 파일 경로 지정
+  mapper-locations: classpath:db/sql/mappers/*_mapper.xml
+
+
+# 서버 설정
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  # 배포 중단 시 처리 중인 요청 처리 후 완료
+  shutdown: GRACEFUL
+
+
+# 커스텀 애플리케이션 프로퍼티
+app:
+  api:
+    base-path: /api
+    version: v1
+    route-prefix: ${app.api.base-path}/${app.api.version}
