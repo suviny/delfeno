@@ -16,4 +16,8 @@
         <!-- `INSERT` 또는 `UPDATE`시 `NULL` 값이 포함될 경우 그대로 `NULL` 사용 -->
         <setting name="jdbcTypeForNull" value="NULL"/>
     </settings>
+
+    <plugins>
+        <plugin interceptor="me.subin.delfeno.global.infra.interceptor.BaseTimeAuditInterceptor"/>
+    </plugins>
 </configuration>
