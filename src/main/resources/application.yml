@@ -45,5 +45,5 @@ server:
 app:
   api:
     base-path: /api
-    version: v1
-    route-prefix: ${app.api.base-path}/${app.api.version}
+    versioning: v1
+
