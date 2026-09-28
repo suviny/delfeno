@@ -18,6 +18,6 @@
     </settings>
 
     <plugins>
-        <plugin interceptor="me.subin.delfeno.global.infra.interceptor.BaseTimeAuditInterceptor"/>
+        <plugin interceptor="me.subin.delfeno.global.infra.audit.BaseDateTimeAuditInterceptor"/>
     </plugins>
 </configuration>
