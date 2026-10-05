@@ -19,23 +19,23 @@ import java.time.format.DateTimeFormatter;
 @Configuration
 public class JacksonConfig {
 
-    private static final String DATE_FORMAT = "yyyy-MM-dd";
+    private static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
 
-    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
         return builder -> builder
                 .modules(new JavaTimeModule())
-                /* 객체 및 데이터의 직렬화 설정 */
+                /* 객체 직렬화 설정 */
                 .serializers(
-                    new LocalDateSerializer(DateTimeFormatter.ofPattern(DATE_FORMAT)),
-                    new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)))
-                /* 클라이언트로부터 전달된 JSON 데이터 역직렬화 설정 */
+                    new LocalDateSerializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT)),
+                    new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT)))
+                /* JSON 데이터 역직렬화 설정 */
                 .deserializers(
-                    new LocalDateDeserializer(DateTimeFormatter.ofPattern(DATE_FORMAT)),
-                    new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT)))
-                /* 날짜 데이터의 타임 스탬프 변환 설정 비활성화 */
+                    new LocalDateDeserializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT)),
+                    new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT)))
+                /* 날짜 데이터의 직렬화 처리시 타임스탬프 형식 출력 비활성화 */
                 .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 }

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * @version 1.0
  */
 @Getter
-public abstract class BasicResponse {
+public abstract class BaseResponse {
 
     private final LocalDateTime timestamp;
 
@@ -19,7 +19,7 @@ public abstract class BasicResponse {
 
     private final String message;
 
-    protected BasicResponse(int code, String message) {
+    protected BaseResponse(int code, String message) {
         this.timestamp = LocalDateTime.now();
         this.code = code;
         this.message = message;

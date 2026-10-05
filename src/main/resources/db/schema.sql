@@ -62,7 +62,7 @@ create table if not exists profiles (
     id                  int                 not null auto_increment,
     user_id             int                 not null,
     profile_img_url     varchar(255)        not null,
-    nickname            varchar(25)         not null,
+    nickname            varchar(25)         not null unique,
     bio                 varchar(150)        null,
     univ                varchar(45)         null,
     site_url            varchar(255)        null,
