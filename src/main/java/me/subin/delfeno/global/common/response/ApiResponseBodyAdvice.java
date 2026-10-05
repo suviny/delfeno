@@ -39,21 +39,23 @@ public class ApiResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request, ServerHttpResponse response) {
-        ApiEnum apiEnum = ApiEnum.resolve(getStatus(response));
+        HttpStatus status = resolveStatus(response);
+        ApiEnum apiEnum = ApiEnum.from(status);
+        ApiResponse<?> payload = ApiResponse.success(apiEnum, body);
         if (body instanceof String) {
             try {
                 response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
-                return objectMapper.writeValueAsString(ApiResponse.success(apiEnum, body));
+                return objectMapper.writeValueAsString(payload);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException("Failed to serialize response body to JSON.", e);
             }
         }
-        return ApiResponse.success(apiEnum, body);
+        return payload;
     }
 
-    private HttpStatus getStatus(ServerHttpResponse response) {
-        if (response instanceof ServletServerHttpResponse servletServerHttpResponse) {
-            int status = servletServerHttpResponse.getServletResponse().getStatus();
+    private HttpStatus resolveStatus(ServerHttpResponse response) {
+        if (response instanceof ServletServerHttpResponse serverHttpResponse) {
+            int status = serverHttpResponse.getServletResponse().getStatus();
             HttpStatus resolved = HttpStatus.resolve(status);
             if (resolved != null) {
                 return resolved;
