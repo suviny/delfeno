@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.subin.delfeno.domain.user.mapper.UserMapper">
+    <!-- 주석 -->
+    <select id="selectExistsByEmail" parameterType="String" resultType="Boolean">
+        <![CDATA[
+            SELECT EXISTS (
+                SELECT 1
+                FROM users
+                WHERE email = #{email}
+                    AND deleted_yn = 'N'
+                LIMIT 1
+            )
+        ]]>
+    </select>
+
+    <!-- 주석 -->
+    <select id="selectExistsByNickname" parameterType="String" resultType="Boolean">
+        <![CDATA[
+            SELECT EXISTS (
+                SELECT 1
+                FROM users
+                WHERE nickname = #{nickname}
+                    AND deleted_yn = 'N'
+                LIMIT 1
+        ]]>
+    </select>
+
+    <!-- 주석 -->
+    <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO users (
+            email,
+            nickname,
+            name,
+            auth_type,
+            created_at,
+            updated_at
+        ) VALUES (
+            #{email},
+            #{nickname},
+            #{name},
+            #{authType},
+            #{createdAt},
+            #{updatedAt}
+        )
+    </insert>
+
+    <!-- 주석 -->
+    <insert id="insertUserCredential">
+        INSERT INTO user_credentials (
+            user_id,
+            password,
+            updated_at
+        ) VALUES (
+            #{userId},
+            #{password},
+            #{updatedAt}
+        )
+    </insert>
+
+    <!-- 주석 -->
+    <insert id="insertUserRole">
+        INSERT INTO user_roles (
+            user_id,
+            role
+        ) VALUES (
+            #{userId},
+            #{role}
+        )
+    </insert>
+</mapper>
