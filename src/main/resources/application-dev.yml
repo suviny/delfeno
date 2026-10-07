@@ -1,0 +1,48 @@
+# ********************************************************************************
+#   개발 환경
+# ********************************************************************************
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  # H2 인 메모리 데이터베이스 구성 설정
+  datasource:
+    url: jdbc:h2:mem:dev_db;MODE=MySQL;DB_CLOSE_DELAY=-1
+    username: sa
+    driver-class-name: org.h2.Driver
+
+  sql:
+    init:
+      # 내장 데이터베이스일 경우 SQL 스크립트 실행
+      mode: EMBEDDED
+      schema-locations: classpath:db/sql/h2/schema.sql
+      data-locations: classpath:db/sql/h2/data.sql
+
+  jackson:
+    deserialization:
+      # 정의되지 않은 필드 유입시 예외 발생 허용
+      fail-on-unknown-properties: true
+
+  # 타임리프 캐시 및 경로 설정
+  thymeleaf:
+    # 브라우저의 새로고침을 통해 화면의 변경 내역 반영을 위한 뷰 템플릿 경로 설정
+    prefix: file:src/main/resources/templates/
+    cache: false
+
+  web:
+    resources:
+      # 타임리프와 동일한 이유로 정적 리소스 경로 설정
+      static-locations: file:src/resources/static/
+
+
+server:
+  port: 80
+
+
+logging:
+  level:
+    root: info
+  file:
+    path: ${LOG_PATH:./logs}
