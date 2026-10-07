@@ -1,0 +1,50 @@
+# ********************************************************************************
+#   운영 환경
+# ********************************************************************************
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  # 운영을 위한 마리아 DB 구성 설정
+  datasource:
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT}/${DB_NAME}?${DB_OPTIONS}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
+#    hikari:
+#      maximum-pool-size: 10
+#      minimum-idle: 5
+#      idle-timeout: 300000
+#      connection-timeout: 20000
+
+  jackson:
+    deserialization:
+      # 정의되지 않은 필드 유입시 예외 발생 허용 비활성화
+      fail-on-unknown-properties: false
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    cache: true
+
+  web:
+    resources:
+      static-locations: classpath:/static/
+      # 정적 리소스의 캐시 설정
+      cache:
+        period: 36000
+
+
+server:
+  port: 80
+
+
+logging:
+  level:
+    root: info
+  file:
+    path: ${LOG_PATH}
+
+
+

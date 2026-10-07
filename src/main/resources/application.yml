@@ -1,0 +1,46 @@
+# ********************************************************************************
+#   공통 환경
+# ********************************************************************************
+
+spring:
+  application:
+    name: delfeno
+  main:
+    banner-mode: OFF
+
+  # 실행 환경 지정과 해당 환경에 따른 외부 설정 파일 로드
+  profiles:
+    active: dev
+  config:
+    import: optional:file:.env.${spring.profiles.active}[.properties]
+
+  # JSON 직렬화/역직렬화시 기준이 될 타임존 설정
+  jackson:
+    time-zone: Asia/Seoul
+
+
+mybatis:
+  config-location: classpath:db/sql/mybatis/mybatis-config.xml
+  # 마이바티스 커스텀 타입 핸들러가 위치한 패키지 경로 지정
+  type-handlers-package: me.subin.delfeno.global.infra.handler
+  # 마이바티스 매퍼에서 매핑 타입이 되는 클래스들이 위치한 패키지 경로 지정
+  type-aliases-package: me.subin.delfeno.domain.**
+  # 마이바티스 매퍼 파일들의 위치 지정
+  mapper-locations: classpath:db/sql/mybatis/mappers/*_mapper.xml
+
+
+server:
+  servlet:
+    # 한글 처리를 위한 요청 및 응답 인코딩 설정
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  # 서버 종료시 진행 중인 요청을 모두 안전하게 처리한 뒤 종료하도록 설정
+  shutdown: GRACEFUL
+
+
+# 애플리케이션 전역에서 공통으로 사용할 커스텀 설정
+api:
+  base-path: /api
+  version: v1
