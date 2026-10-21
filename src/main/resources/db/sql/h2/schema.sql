@@ -21,6 +21,7 @@ CREATE TABLE IF EXISTS users (
     id                  INT                 NOT NULL AUTO_INCREMENT,
     email               VARCHAR(50)         NOT NULL,
     nickname            VARCHAR(25)         NOT NULL,
+    name                VARCHAR(25)         NOT NULL,
     login_type          VARCHAR(10)         NOT NULL,
     enabled             TINYINT(1)          NOT NULL DEFAULT 1,
     deleted_yn          CHAR(1)             NOT NULL DEFAULT 'N',
@@ -37,7 +38,7 @@ CREATE TABLE IF EXISTS users (
 DROP TABLE IF EXISTS user_roles CASCADE;
 CREATE TABLE IF EXISTS user_roles (
     user_id             INT                 NOT NULL,
-    role_type           VARCHAR(10)         NOT NULL,
+    role                VARCHAR(10)         NOT NULL,
     PRIMARY KEY (user_id, role_type),
     CONSTRAINT USER_ROLES_USER_ID_FK FOREIGN KEY (user_id) REFERENCES users (id)
 );
@@ -48,6 +49,7 @@ DROP TABLE IF EXISTS auth_credentials CASCADE;
 CREATE TABLE IF EXISTS auth_credentials (
     user_id             INT                 NOT NULL,
     password            VARCHAR(255)        NOT NULL,
+    created_at          DATETIME            NOT NULL DEFAULT NOW(),
     updated_at          DATETIME            NOT NULL,
     PRIMARY KEY (user_id),
     CONSTRAINT AUTH_CREDENTIALS_USER_ID_FK FOREIGN KEY (user_id) REFERENCES users (id)
